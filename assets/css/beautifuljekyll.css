@@ -108,18 +108,6 @@ img {
   margin-top: -1.5625rem;
 }
 
-/* Comments */
-
-.disqus-comments {
-  margin-top: 1.875rem;
-}
-
-@media (min-width: 768px) {
-  .disqus-comments {
-    margin-top: 2.5rem;
-  }
-}
-
 /* --- Navbar --- */
 
 .navbar-custom {
