@@ -615,7 +615,13 @@ footer .footer-custom-content {
 }
 
 .tag-btn:active {
-  border: 5;
+  border: 0;
+  color: {{ site.text-col | default: "#FFFFFF" }};
+  background-color: {{ site.link-col | default: "#0F7FFB" }};
+}
+
+.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle {
+  border: 0;
   color: {{ site.text-col | default: "#FFFFFF" }};
   background-color: {{ site.link-col | default: "#0F7FFB" }};
 }
