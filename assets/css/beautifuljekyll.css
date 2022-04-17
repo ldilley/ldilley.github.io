@@ -587,52 +587,46 @@ footer .footer-custom-content {
   border: 0;
   margin: 0.3125rem;
   color: {{ site.text-col | default: "#FFFFFF" }};
-  background-color: "#0F7FFB";
-}
-
-.tag-btn:focus {
-  border: 0;
-  color: {{ site.text-col | default: "#FFFFFF" }};
   background-color: {{ site.link-col | default: "#0F7FFB" }};
 }
 
 .tag-btn:link {
   border: 0;
   color: {{ site.text-col | default: "#FFFFFF" }};
-  background-color: "#0F7FFB";
+  background-color: {{ site.link-col | default: "#0F7FFB" }};
 }
 
 .tag-btn:visited {
   border: 0;
   color: {{ site.text-col | default: "#FFFFFF" }};
-  background-color: "#0F7FFB";
+  background-color: {{ site.link-col | default: "#0F7FFB" }};
 }
 
 .tag-btn:hover {
   border: 0;
   color: {{ site.text-col | default: "#FFFFFF" }};
-  background-color: {{ site.link-col | default: "#0F7FFB" }};
+  background-color: {{ site.hover-col | default: "#0F7FFB" }};
 }
 
 .tag-btn:active {
   border: 0;
   color: {{ site.text-col | default: "#FFFFFF" }};
-  background-color: {{ site.link-col | default: "#0F7FFB" }};
+  background-color: {{ site.active-col | default: "#0F7FFB" }};
 }
 
 .tag-btn:not(:disabled):not(.disabled).active, .tag-btn:not(:disabled):not(.disabled):active {
   border: 0;
   color: {{ site.text-col | default: "#FFFFFF" }};
-  background-color: {{ site.link-col | default: "#0F7FFB" }};
+  background-color: {{ site.active-col | default: "#0F7FFB" }};
 }
 
 .tag-btn:not(:disabled):not(.disabled).active:focus, .tag-btn:not(:disabled):not(.disabled):active:focus {
-  box-shadow: none;
+  box-shadow: #FF6000;
   outline: 0;
 }
 
 .tag-btn.focus, .tag-btn:focus {
-  box-shadow: none;
+  box-shadow: #FF6000;
   outline: 0;
 }
 
