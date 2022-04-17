@@ -584,50 +584,7 @@ footer .footer-custom-content {
 /* Tags page */
 
 .tag-btn {
-  border: 0;
   margin: 0.3125rem;
-  color: {{ site.text-col | default: "#FFFFFF" }};
-  background-color: {{ site.link-col | default: "#0F7FFB" }};
-}
-
-.tag-btn:link {
-  border: 0;
-  color: {{ site.text-col | default: "#FFFFFF" }};
-  background-color: {{ site.link-col | default: "#0F7FFB" }};
-}
-
-.tag-btn:visited {
-  border: 0;
-  color: {{ site.text-col | default: "#FFFFFF" }};
-  background-color: {{ site.link-col | default: "#0F7FFB" }};
-}
-
-.tag-btn:hover {
-  border: 0;
-  color: {{ site.text-col | default: "#FFFFFF" }};
-  background-color: {{ site.hover-col | default: "#0F7FFB" }};
-}
-
-.tag-btn:active {
-  border: 0;
-  color: {{ site.text-col | default: "#FFFFFF" }};
-  background-color: {{ site.active-col | default: "#0F7FFB" }};
-}
-
-.tag-btn:not(:disabled):not(.disabled).active, .tag-btn:not(:disabled):not(.disabled):active {
-  border: 0;
-  color: {{ site.text-col | default: "#FFFFFF" }};
-  background-color: {{ site.active-col | default: "#0F7FFB" }};
-}
-
-.tag-btn:not(:disabled):not(.disabled).active:focus, .tag-btn:not(:disabled):not(.disabled):active:focus {
-  box-shadow: #FF6000;
-  outline: 0;
-}
-
-.tag-btn.focus, .tag-btn:focus {
-  box-shadow: #FF6000;
-  outline: 0;
 }
 
 #full-tags-list {
