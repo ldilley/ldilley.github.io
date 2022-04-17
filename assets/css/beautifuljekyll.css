@@ -852,10 +852,12 @@ pre code {
   padding: 0;
   background-color: transparent;
   border-radius: 0;
-  color: #000;
+  /*color: #000;*/
+  color: {{ site.text-col | default: "#404040" }};
 }
 
 pre {
+  background-color: #202020;
   font-size: 0.875rem;
   line-height: 1.5em;
   border-radius: 0.25rem;
