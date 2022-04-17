@@ -358,7 +358,6 @@ img {
 
 footer {
   padding: 1.875rem 0;
-  /*border-top: 1px #EAEAEA solid;*/
   border-top: 1px {{ site.footer-border-col | default: "#EAEAEA" }} solid;
   margin-top: 3.125rem;
   font-size: 0.875rem;
@@ -373,7 +372,7 @@ footer p.text-muted {
   color: {{ site.footer-text-col | default: "#777777" }} !important;
 }
 
-/*
+
 footer a {
   color: {{ site.footer-link-col | default: "#404040" }};
 }
@@ -382,7 +381,6 @@ footer a:hover,
 footer a:focus {
   color: {{ site.footer-hover-col | default: "#0085A1" }};
 }
-*/
 
 footer .list-inline {
   margin: 0;

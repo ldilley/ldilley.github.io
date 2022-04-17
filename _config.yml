@@ -118,7 +118,7 @@ footer-border-col: "#7A828E"
 #footer-text-col: "#777777"
 footer-text-col: "#FFFFFF"
 #footer-link-col: "#404040"
-footer-link-col: "#FF7000"
+footer-link-col: "#000000"
 #footer-hover-col: "#0085A1"
 footer-hover-col: "#FF7000"
 
