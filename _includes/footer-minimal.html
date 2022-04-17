@@ -1,13 +1,14 @@
 <footer class="footer-min">
   <div class="text-muted">
-    {% if site.author %}
-      {{ site.author }}
-      &nbsp;&copy;&nbsp;
-    {% endif %}
+    Copyright &copy;&nbsp;
     {% if page.date %}
       {{ page.date }}
     {% else %}
       {{ site.time | date: '%Y' }}
+    {% endif %}
+    &nbsp;
+    {% if site.author %}
+      {{ site.author }}
     {% endif %}
 
     {% if site.url-pretty %}
