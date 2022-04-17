@@ -803,20 +803,21 @@ nav.top-nav-short-permanent ~ header > .intro-header.big-img {
 /* --- Tables --- */
 
 table {
+  color: {{ site.text-col | default: "#404040" }};
   padding: 0;
 }
 table tr {
-  border-top: 1px solid #cccccc;
-  background-color: #ffffff;
+  border-top: 1px solid #7A828E;
+  background-color: #202020;
   margin: 0;
   padding: 0;
 }
 table tr:nth-child(2n) {
-  background-color: #f8f8f8;
+  background-color: #202020;
 }
 table tr th {
   font-weight: bold;
-  border: 1px solid #cccccc;
+  border: 1px solid #7A828E;
   text-align: left;
   margin: 0;
   padding: 0.375rem 0.8125rem;
