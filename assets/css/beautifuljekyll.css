@@ -590,6 +590,12 @@ footer .footer-custom-content {
   background-color: "#0F7FFB";
 }
 
+.tag-btn:focus {
+  border: 0;
+  color: {{ site.text-col | default: "#FFFFFF" }};
+  background-color: {{ site.link-col | default: "#0F7FFB" }};
+}
+
 .tag-btn:link {
   border: 0;
   color: {{ site.text-col | default: "#FFFFFF" }};
