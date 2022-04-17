@@ -783,8 +783,8 @@ nav.top-nav-short-permanent ~ header > .intro-header.big-img {
   font-weight: 800;
   letter-spacing: 1px;
   padding: 0.625rem 0.3125rem;
-  /*background-color: #FFF;*/
-  background-color: {{ site.link-col | default: "#0F7FFB" }};
+  background-color: #0F7FFB;
+  border: 0;
   border-radius: 0;
   color: {{ site.text-col | default: "#404040" }};
 }
@@ -793,12 +793,14 @@ nav.top-nav-short-permanent ~ header > .intro-header.big-img {
     padding: 0.9375rem 1.5625rem;
   }
 }
-/*.pagination .page-item .page-link:hover,
+
+.pagination .page-item .page-link:hover,
 .pagination .page-item .page-link:focus {
-  color: #FFF;
-  border: 1px solid {{ site.hover-col | default: "#0085A1" }};
-  background-color: {{ site.hover-col | default: "#0085A1" }};
-}*/
+  color: {{ site.text-col | default: "#404040" }};
+  /*border: 1px solid {{ site.hover-col | default: "#0085A1" }};*/
+  /*background-color: {{ site.hover-col | default: "#0085A1" }};*/
+  background-color: #0C6CD6;
+}
 
 /* --- Tables --- */
 
