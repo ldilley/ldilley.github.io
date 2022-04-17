@@ -851,8 +851,10 @@ code {
 
 pre code {
   padding: 0;
-  background-color: transparent;
+  /*background-color: transparent;*/
+  background-color: #FFF;
   border-radius: 0;
+  color: #000;
 }
 
 pre {
