@@ -858,6 +858,7 @@ pre code {
 
 pre {
   background-color: #202020;
+  color: {{ site.text-col | default: "#404040" }};
   font-size: 0.875rem;
   line-height: 1.5em;
   border-radius: 0.25rem;
@@ -869,8 +870,9 @@ pre {
   margin: 0;
 }
 .highlight > pre {
-  background-image: linear-gradient(
-    rgba(0,0,0,0.03), rgba(0,0,0,0.03) 1.5em, rgba(0,0,0,0.02) 1.5em, rgba(0,0,0,0.02) 3em);
+  /*background-image: linear-gradient(
+    rgba(0,0,0,0.03), rgba(0,0,0,0.03) 1.5em, rgba(0,0,0,0.02) 1.5em, rgba(0,0,0,0.02) 3em);*/
+  background-color: #202020;
   background-size: auto 3em;
   background-position-y: 0.625rem;
   border: 1px solid rgba(0,0,0,0.1);
@@ -888,7 +890,8 @@ pre {
   margin: 0;
 }
 .highlight pre.lineno {
-  color: rgba(0,0,0,0.3);
+  /*color: rgba(0,0,0,0.3);*/
+  color: {{ site.text-col | default: "#404040" }};
   border-radius: 0;
   border-right: 2px solid #444;
 }
