@@ -587,16 +587,16 @@ footer .footer-custom-content {
   border: 0;
   margin: 0.3125rem;
   color: {{ site.text-col | default: "#FFFFFF" }};
-  background-color: {{ site.link-col | default: "#0F7FFB" }};
+  background-color: "#0F7FFB";
 }
 
-.tag-btn a {
+.tag-btn:link,.tag-btn:visited {
   border: 0;
   color: {{ site.text-col | default: "#FFFFFF" }};
-  background-color: {{ site.link-col | default: "#0F7FFB" }};
+  background-color: "#0F7FFB";
 }
 
-.tag-btn:hover {
+.tag-btn:active,.tag-btn:hover {
   border: 0;
   color: {{ site.text-col | default: "#FFFFFF" }};
   background-color: {{ site.link-col | default: "#0F7FFB" }};
