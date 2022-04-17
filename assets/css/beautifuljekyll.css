@@ -596,7 +596,7 @@ footer .footer-custom-content {
   background-color: {{ site.link-col | default: "#0F7FFB" }};
 }
 
-.tag-btn a:hover {
+.tag-btn:hover {
   border: 0;
   color: {{ site.text-col | default: "#FFFFFF" }};
   background-color: {{ site.link-col | default: "#0F7FFB" }};
