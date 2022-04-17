@@ -548,6 +548,7 @@ footer .footer-custom-content {
 
 .blog-tags span {
   color: {{ site.text-col | default: "#404040" }};
+  font-weight: bold;
   opacity: 0.8;
 }
 
