@@ -13,7 +13,7 @@ navbar-links:
   #Resources:
   #  - Beautiful Jekyll: "https://beautifuljekyll.com"
   #  - Learn markdown: "https://www.markdowntutorial.com/"
-  Home: "https://dilley.me/"
+  dilley.me: "https://dilley.me/"
   GitHub: "https://github.com/ldilley"
 
 # --- Logo --- #
