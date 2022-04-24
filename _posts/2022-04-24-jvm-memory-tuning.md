@@ -5,6 +5,8 @@ tags: [java, tutorial]
 comments: true
 ---
 
+### Introduction
+
 The Java Virtual Machine (JVM) can be tuned to meet your program's memory needs. I will be discussing the various memory options
 along with how you can monitor the status of your Java programs.
 
