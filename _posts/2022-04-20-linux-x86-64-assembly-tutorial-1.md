@@ -5,8 +5,6 @@ tags: [linux, assembly, tutorial]
 comments: true
 ---
 
-## Linux x86-64 Assembly Tutorial #1
-
 ### Introduction
 After finally getting around to playing with 64-bit assembly recently, I wanted to share the knowledge since there does not seem to be
 many tutorials out there surprisingly. The available information is mostly scattered between AMD64 programming manuals, assembler
