@@ -7,11 +7,11 @@ comments: true
 
 ### Introduction
 Welcome to the second installment of the 64-bit Linux assembly tutorial. If you have not yet read part one of this tutorial, you can do
-so [here](linux_x86-64_asm_tutorial1.md). If you have read it, I hope that you enjoyed it. We will be covering networking, debugging,
+so [here](https://blog.dilley.me/2022-04-20-linux-x86-64-assembly-tutorial-1/). If you have read it, I hope that you enjoyed it. We will be covering networking, debugging,
 optimizing, endianness, and analogous C code in this tutorial. Let us get to it!
 
 ### Useful Links
-* [Part I of this tutorial](linux_x86-64_asm_tutorial1.md) (the basics)
+* [Part I of this tutorial](https://blog.dilley.me/2022-04-20-linux-x86-64-assembly-tutorial-1/) (the basics)
 * [Ryan A. Chapman's 64-bit Linux system call table](http://blog.rchapman.org/post/36801038863/linux-system-call-table-for-x86-64) (for reference)
 * [Beej's Guide to Network Programming](http://beej.us/guide/bgnet/) (in C)
 * [Valgrind](http://valgrind.org/) (debugger and profiler)
