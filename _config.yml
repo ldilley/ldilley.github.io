@@ -6,6 +6,9 @@ title: Dillog
 # Your name to show in the footer
 author: Lloyd Dilley
 
+# Copyright year used as a beginning of a range
+copyright-start-year: 2022
+
 # --- List of links in the navigation bar --- #
 
 navbar-links:
