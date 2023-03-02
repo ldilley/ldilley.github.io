@@ -13,9 +13,10 @@
       <p class="copyright text-muted">
       Copyright &copy;
       {% if site.copyright-start-year %}
-        {{ site.copyright-start-year }}-
+        {{ site.copyright-start-year }}-{{ site.time | date: '%Y' }}
+      {% else %}
+        {{ site.time | date: '%Y' }}
       {% endif %}
-      {{ site.time | date: '%Y' }}
       {% if site.author %}
         {{ site.author }}
       {% endif %}
