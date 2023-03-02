@@ -5,8 +5,6 @@ tags: [java, tutorial]
 comments: true
 ---
 
-## Tactfully Handling Common Java Complaints 
-
 ### Java Sucks! ... Or Not?
 So, your friends tell you Java blows chunks. They've either heard/read it elsewhere, had a bad history with slow-loading applets
 in 1996, or have personally worked with the language and loathe it. I'd like to dispel some of the arguments against Java in the
