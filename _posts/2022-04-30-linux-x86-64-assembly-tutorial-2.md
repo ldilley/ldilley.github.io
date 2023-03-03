@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Linux x86-64 Assembly Tutorial (part 2)
-tags: [linux, assembly, tutorial]
+tags: [linux, assembly, c, tutorial]
 comments: true
 ---
 

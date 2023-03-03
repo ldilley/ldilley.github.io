@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Tactfully Handling Common Java Complaints
-tags: [java, tutorial]
+tags: [c, java, tutorial]
 comments: true
 ---
 
