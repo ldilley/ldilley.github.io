@@ -1,1 +1,1 @@
-Website for blog.dilley.me
+Website for www.dilley.me

@@ -1,5 +1,117 @@
----
-layout: home
-title: Dillog
-subtitle: Random miscellaneous stuff
----
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dilley Dot Me</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="header">
+<h2>Dilley Dot Me</h2>
+</div>
+<div id="main">
+<h3 class="section">About</h3>
+<p><br>
+Welcome to the humble abode of Lloyd Dilley (me) on the Web&trade;. Feel free to read my <a href="#blog">blog articles</a>.<br><br>
+I like using <a href="http://www.freebsd.org/">FreeBSD</a>, Linux (<a href="http://www.debian.org/">Debian</a> in particular), and <a href="http://www.apple.com/macos">macOS</a>.<br><br>
+I've worked on a number of <a href="#projects">projects</a>. Most of them are hosted on <a href="https://github.com/ldilley">GitHub</a>.<br><br>
+My favorite programming languages are C and <a href="http://www.ruby-lang.org/">Ruby</a>. <a href="http://crystal-lang.org/">Crystal</a>, <a href="http://elixir-lang.org/">Elixir</a>,
+and <a href="http://julialang.org/">Julia</a> additionally possess a syntax that I admire.<br><br>
+I also enjoy a variety of <a href="#gaming">video games</a>.<br><br>
+</p>
+<h3 class="section"><a id="blog"></a>Blog</h3><br>
+<ul class="main">
+<li><a href="handling_java_complaints.html">Tactfully Handling Common Java Complaints</a> [2015-12-20]<br><br></li>
+<li><a href="linux_x64_assembly_part2.html">Linux x86-64 Assembly Tutorial (Part 2)</a> [2015-12-10]<br><br></li>
+<li><a href="jvm_memory_tuning.html">JVM Memory Tuning</a> [2014-09-02]<br><br></li>
+<li><a href="linux_x64_assembly_part1.html">Linux x86-64 Assembly Tutorial (Part 1)</a> [2014-04-12]</li>
+</ul><br>
+<h3 class="section"><a id="projects"></a>Projects</h3><br>
+<ul class="main">
+<li><u>Method</u> &#x1F9D9;<br>A fork of the <a href="http://www.lw.uox3.org/main2/news2.htm">Lonewolf UO emulator</a> with features from the <a href="http://www.sphereserver.com/">Sphere UO emulator</a>.
+I no longer maintain this project. See <a href="http://www.uox3.org/history/timeline.txt">here</a> for a historical timeline of UO emulators. I have also archived the document
+<a href="uo_emu_timeline.txt">here</a> in case uox3.org ever goes away. Xuri is the original author. If you are still interested in running a UO server, <a href="http://www.polserver.com/">POL</a>,
+<a href="http://www.runuo.net/">RunUO</a>, <a href="http://www.servuo.com/">ServUO</a>, <a href="http://www.sphereserver.com/">Sphere</a>, and <a href="http://www.uox3.org/">UOX3</a> are probably your
+best choices today.<br><br></li>
+<li><u>IgniteIRCd</u> &#x1F4AC;<br>A fork of the <a href="http://www.ircd-hybrid.org/">Hybrid IRC daemon</a> with enhanced operator support (no longer maintained -- use 
+<a href="https://github.com/ldilley/rubircd">RubIRCd</a> instead).<br>
+<a href="http://sourceforge.net/p/igniteircd/code/HEAD/tree/">[View source]</a> <a href="http://igniteircd.sourceforge.net/">[Visit site]</a><br><br></li>
+<li><u>bitsh.c</u> &#x1F41A;<br>Play a joke on your friends by replacing their login shell with this program.<br>
+<a href="bitsh.c.txt">[View source]</a> <a href="bitsh.c.bz2">[Download]</a> <a href="bitsh.c.bz2.sha512.sum.txt">[SHA512 checksum]</a><br><br></li>
+<li><u>impoog.c</u> &#x1F422;<br>Improved "oog" that also attempts to exhaust all physical memory on a Linux/Unix system. Do not use on a production system!
+This program is intended for educational purposes to demonstrate why resource limits should be implemented.<br>
+<a href="impoog.c.txt">[View source]</a> <a href="impoog.c.bz2">[Download]</a> <a href="impoog.c.bz2.sha512.sum.txt">[SHA512 checksum]</a><br><br></li>
+<li><u>IRCQuote</u> &#x1F4CB;<br>IRC Quote system featuring a SQL backend for quote storage, Eggdrop TCL script to query quotes and for quote submission, and JSP script to query quotes.<br><br></li>
+<li><u>SEGS</u> &#x1F4AA;<br>The Super Entity Game Server.<br>
+<a href="https://github.com/Segs/Segs">[View source]</a><br><br></li>
+<li><u>Chmod Calculator</u> &#x2797;<br>An Android app to help you calculate Linux/Unix file permissions with special bit support.<br>
+<a href="https://github.com/ldilley/chmodcalc">[View source]</a><br><br></li>
+<li><u>Umask Calculator</u> &#x2797;<br>An Android app to help you calculate Linux/Unix file and directory permissions as a result of a umask.<br>
+<a href="https://github.com/ldilley/umaskcalc">[View source]</a><br><br></li>
+<li><u>Unix Time Converter</u> &#x231A;<br>An Android app to help you convert between Unix and human time.<br>
+<a href="https://github.com/ldilley/unixtime">[View source]</a><br><br></li>
+<li><u>LinSim</u> &#x1F427;<br>A Linux simulator.<br>
+<a href="https://github.com/ldilley/linsim">[View source]</a><br><br></li>
+<li><u>RubIRCd</u> &#x1F4AC;<br>An IRC server written in Ruby.<br>
+<a href="https://github.com/ldilley/rubircd">[View source]</a> <a href="rubircd/">[Visit site]</a>
+<a href="https://hub.docker.com/r/ldilley/rubircd/">[Get Docker image]</a><br><br></li>
+<li><u>MineStat</u> &#x1F4C8;<br>A Minecraft server status checker for use with C#, Go, Java, JavaScript, Perl, PHP, PowerShell, Python, and Ruby.<br>
+<a href="https://github.com/FragLand/minestat">[View source]</a><br><br></li>
+<li><u>Linulator</u> &#x1F427;<br>A Linux emulator.<br>
+<a href="https://github.com/ldilley/linulator">[View source]</a><br><br></li>
+<li><u>FRANK</u> &#x1F916;<br>Fairly Rational Artificial Neural Kludge.<br>
+<a href="https://github.com/ldilley/frank">[View source]</a><br><br></li>
+<li><u>TinyTCP64</u> ☎️ <br>A Linux and FreeBSD TCP server written in x86-64 assembly.<br>
+<a href="https://github.com/ldilley/tinytcp64">[View source]</a><br><br></li>
+<li><u>DiscoBot</u> &#x1F916;<br>A Discord bot written in Ruby.<br>
+<a href="https://github.com/ldilley/discobot">[View source]</a><br><br></li>
+<li><u>Salad</u> &#x1F957;<br>A C library with an assortment of useful stuff.<br>
+<a href="https://github.com/ldilley/salad">[View source]</a> <a href="http://dilley.me/salad_api/">[View API]</a><br><br></li>
+<li><u>Ditch</u> &#x1F3AE;<br>A Discord &lt;-&gt; Twitch bridge.<br>
+<a href="https://github.com/ldilley/ditch">[View source]</a><br><br></li>
+<li><u>Dotfiles</u> &#x1F3E0;<br>A set of configuration files I use for <span class="literal">bash</span>, <span class="literal">git</span>, <span class="literal">nano</span>,
+<span class="literal">vim</span>, and other programs.<br>
+<a href="https://github.com/ldilley/dotfiles">[View source]</a><br><br></li>
+<li><u>Cloud</u> ☁️ <br>Various cloud-related configurations and scripts.<br>
+<a href="https://github.com/ldilley/cloud">[View source]</a><br><br></li>
+<li><u>Gwitter</u> &#x1F426;<br>GitHub to Twitter hook glue.<br>
+<a href="https://github.com/ldilley/gwitter">[View source]</a><br><br></li>
+<li><u>Junk</u> 🗑️ <br>An archive of random programs.<br>
+<a href="https://github.com/ldilley/junk">[View source]</a><br><br></li>
+<li><u>LinMod</u> &#x1F427;<br>Various demonstrational Linux kernel modules.<br>
+<a href="https://github.com/ldilley/linmod">[View source]</a><br><br></li>
+<li><u>BSDMod</u> &#x1F608;<br>Various demonstrational FreeBSD kernel modules.<br>
+<a href="https://github.com/ldilley/bsdmod">[View source]</a><br><br></li>
+<li><u>Terracord</u> &#x1F332;<br>A Discord &lt;-&gt; Terraria bridge plugin for <a href="https://github.com/Pryaxis/TShock">TShock</a>.<br>
+<a href="https://github.com/FragLand/terracord">[View source]</a><br><br></li>
+<li><u>Techdocs</u> &#x1F4DD;<br>A collection of technical documents that I've written over the years.<br>
+<a href="https://github.com/ldilley/techdocs">[View]</a><br><br></li>
+<li><u>Concoct</u> &#x1F9EA;<br>An imperative, dynamically-typed, interpreted, general-purpose programming language written in C.<br>
+<a href="https://github.com/Concoctist/concoct">[View source]</a> <a href="https://concoct.ist/">[Visit site]</a><br><br></li>
+<li><u>Pyble</u> &#x1F4D9;<br>A Bible analyzer written in Python.<br>
+<a href="https://github.com/ldilley/pyble">[View source]</a><br><br></li>
+<li><u>Inlet</u> &#x1F6AA;<br>A remote access service written in Python.<br>
+<a href="https://github.com/ldilley/inlet">[View source]</a><br><br></li>
+<li><u>Polymath</u> &#x1F9EE;<br>A mathematics library written in Julia.<br>
+<a href="https://github.com/ldilley/Polymath.jl">[View source]</a> <a href="https://polymath.dilley.me/">[View documentation]</a><br></li>
+</ul><br>
+<h3 class="section"><a id="gaming"></a>Gaming</h3><br>
+<p>
+If you would like to send a friend request, I am <a href="https://www.gog.com/u/Maldimort">Maldimort</a> on <a href="https://www.gog.com/">Gog</a>,
+Maldimort on <a href="https://www.playstation.com/en-us/playstation-network/">PlayStation Network</a>,
+<a href="https://steamcommunity.com/id/Maldemort/">Maldemort</a> on <a href="https://www.steampowered.com/">Steam</a>, and Maldemort on
+<a href="https://www.xbox.com/">Xbox network</a>.<br><br>
+</p>
+<div id="gamercard">
+<a href="https://www.exophase.com/user/Maldemort/"><img src="https://card.exophase.com/2/0/41404.png?1677643304" alt="Gamercard"></a>
+</div>
+</div>
+<div id="footer">
+<br>
+<a href="https://jigsaw.w3.org/css-validator/validator?uri=http%3A%2F%2Fdilley.me%2F&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en"><img src="css.png" alt="Valid CSS"></a> 
+<a href="https://validator.w3.org/nu/?doc=https%3A%2F%2Fdilley.me%2F"><img src="html5.png" alt="Valid HTML5"></a><br><br>
+<a href="http://www.freebsd.org/"><img src="freebsd_powered.gif" alt="Powered by FreeBSD"></a>
+<br><br><p>Copyright &copy; 2009-2025 Lloyd Dilley</p><br>
+</div>
+</body>
+</html>
