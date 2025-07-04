@@ -1,0 +1,12 @@
+body { background: #FFF; color: #000; font-family: Tahoma, Helvetica, sans-serif; font-size: 15px; }
+#header { margin: auto; padding: 0; text-align: center; }
+#nav { margin: auto; padding: 0; text-align: center; font-size: 17px; }
+#main { background: #FFF; border-color: #FB2B32; border-style: dashed; border-width: 2px; color: #000000; margin: 0 200px 0 200px; padding: 25px; }
+#footer { font-size: 13px; margin: auto; padding: 0; text-align: center; }
+a:link { color: #FB2B32; font-weight: bold; text-decoration: none; }
+a:active { color: #FB2B32; font-weight: bold; text-decoration: underline; }
+a:visited { color: #FB2B32; font-weight: bold; text-decoration: none; }
+a:hover { color: #FB2B32; font-weight: bold; text-decoration: underline; }
+a img { border: 0; }
+a img:active { border: 0; }
+h3 { background: #FB2B32; color: #FFF; margin: 0; padding: 0; text-align: center; }
