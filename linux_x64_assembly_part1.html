@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dilley Dot Me: Linux x86-64 Assembly Tutorial (Part 1)</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="highlight/styles/default.min.css">
+<script src="highlight/highlight.min.js"></script>
+</head>
+<body>
+<div id="header">
+<h2><a href="http://dilley.me/">Dilley Dot Me</a></h2>
+</div>
+<div id="main">
+<h3 class="section">Linux x86-64 Assembly Tutorial (Part 1)</h3>
+<div class="mid">
+<br><span class="created">Created on 2014-04-12</span>
+</div><br>
+<h4>Introduction</h4>
+<p>After finally getting around to playing with 64-bit assembly recently, I wanted to share the knowledge since there does not seem to be many tutorials out there surprisingly. The available
+information is mostly scattered between AMD64 programming manuals, assembler documentation, code snippets on the Web, and system call tables or Linux source code. I figured that I would
+consolidate all of that information here to make things easier. If you just want to see the code, feel free to skip ahead.</p><br>
+<h4>Useful Links</h4>
+<p>I recommend reading through the three AMD programming manuals below located at the <a href="http://developer.amd.com/resources/documentation-articles/developer-guides-manuals/">AMD Developer
+Guides & Manuals</a> site if you’re serious about getting into this stuff:</p><br>
+<ol>
+<li><a href="http://amd-dev.wpengine.netdna-cdn.com/wordpress/media/2012/10/24593_APM_v21.pdf">AMD64 Architecture Programmer’s Manual Volume 2: System Programming</a></li>
+<li><a href="http://amd-dev.wpengine.netdna-cdn.com/wordpress/media/2008/10/24594_APM_v3.pdf">AMD64 Architecture Programmer’s Manual Volume 3: General Purpose and System Instructions</a></li>
+<li><a href="http://amd-dev.wpengine.netdna-cdn.com/wordpress/media/2012/10/24592_APM_v11.pdf">AMD64 Architecture Programmer’s Manual Volume 1: Application Programming</a></li>
+</ol><br>
+<p>These will provide you with a lot of in-depth information about the hardware architecture.<br><br>
+Documentation for NASM can be found <a href="http://www.nasm.us/xdoc/2.11.02/html/nasmdoc0.html">here</a>.<br><br>
+I also recommend <a href="http://www.duntemann.com/assembly.html">Jeff Duntemann’s Assembly Language Step by Step</a> book. You can find it on Amazon
+<a href="http://www.amazon.com/Assembly-Language-Step---Step-Programming/dp/0470497025/ref=sr_1_1?ie=UTF8&qid=1396917130&sr=8-1&keywords=assembly+language+step+by+step">here</a>.<br><br>
+Finally, <a href="http://blog.rchapman.org/post/36801038863/linux-system-call-table-for-x86-64">Mr. Ryan A. Chapman’s x86_64 Linux System Call Table</a> is a good reference.</p><br>
+<h4>Getting Started</h4>
+<p>Before making nifty assembly programs, you will need an assembler. An assembler is a program that assembles or translates your source code into machine code. We will use the
+<a href="http://www.nasm.us/">Netwide Assembler (NASM)</a> for this purpose. You can install <span class="literal">nasm</span> via <span class="literal">apt-get</span> or
+<span class="literal">yum</span>.<br><br>
+You will also need a text editor so you can write your code. Any editor will suffice so long as it saves files in plain text format without special formatting. In other words: do not use something
+like OpenOffice Writer. Use <span class="literal">nano</span> or <span class="literal">vim</span> instead. ;)</p><br>
+<h4>Why Learn Assembly?</h4>
+<p>I know what some of you are probably thinking… “Isn’t assembly too old to be useful, dude?” On the contrary, my friend. There are a number of reasons to learn assembly. I’ve listed some fine
+examples below.</p><br>
+<ul>
+<li>Learn how things work on a low level (work with the CPU directly and manage stacks)</li>
+<li>Analyze malware</li>
+<li>Write efficient programs for embedded systems</li>
+<li>Write boot loaders, operating system kernels, and device drivers</li>
+<li>Reverse engineer software to patch it or re-create an application in a higher-level language</li>
+<li>Write performant code for parts of a program that require speed</li>
+<li>It’s fun!</li>
+</ul><br>
+<p>Pretty compelling, huh? Not so fast though…</p><br>
+<h4>What Can’t You Do?</h4>
+<p>You must realize a few things about assembly before moving forward. Due to calling conventions and variances with system calls between operating systems, you cannot assemble the same program
+you wrote for a 64-bit Linux system and expect it to execute on a machine running Windows. FreeBSD and other operating systems actually have the same calling convention as Linux in long mode
+thankfully. However, it still can take a considerable amount of work to port a program due to the variation of syscalls.<br><br>
+This is even truer when it comes to other hardware architectures such as ARM, PPC, and SPARC which have their own registers and instruction sets. As a result, you cannot take your shiny new
+assembly program and run it on your Android phone since these devices do not make use of AMD64 or EM64T (Intel’s implementation of AMD64) processors.<br><br>
+If it is portability you crave, your princess is in another castle. Use a higher-level language such as C, Java, or Ruby. Another point to note is that most modern compilers do a darn good job
+of optimizing code. The optimization may be so good that it will render any assembly code your wetware could whip up as futile. So don’t try it, human.</p><br>
+<h4>Things to Consider</h4>
+<p>There are actually two dialects of the assembly language for the x86 processor. These are referred to as AT&T and Intel syntax. There are several popular assemblers. Aside from NASM, there’s
+also GNU’s GAS, Microsoft’s MASM, and Borland’s TASM to name a few. NASM uses the Intel vernacular as does MASM and TASM while GNU’s assembler initially used and primarily uses AT&T syntax. This
+is not surprising considering Linux’s history with Unix and AT&T. It is worth mentioning that GAS can optionally handle Intel syntax now.<br><br>
+Some of the differences between both dialects are in the table below.</p><br>
+<table>
+<tr>
+<th>Feature</th>
+<th>AT&T</th>
+<th>Intel</th>
+</tr>
+<tr>
+<td>Required prefixes</td>
+<td><span class="literal">$</span> for immediate values and <span class="literal">%</span> for registers</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Operand order</td>
+<td>source, destination (similar to Linux/Unix commands)<br>
+<pre><code class="language-x86asm">mov $16, %rax</code></pre></td>
+<td>destination, source<br>
+<pre><code class="language-x86asm">mov rax, 16</code></pre></td>
+</tr>
+<tr>
+<td>Addressing memory</td>
+<td><span class="literal">()</span></td>
+<td><span class="literal">[]</span></td>
+</tr>
+</table><br>
+<p>Do not worry if you fail to understand some of this stuff. We’ll touch on <span class="literal">mov</span>, <span class="literal">rax</span>, and friends shortly.</p><br>
+<h4>Registers</h4>
+<p>You can think of registers as little cubby holes within the CPU. If you’ve ever taken a course in college on C++, your professor may have provided a similar analogy for addressing memory.
+Unfortunately, there is nowhere near as many registers as there are memory addresses in modern computers. Although, AMD64 has increased the number of registers, so we’ll take what we can get.
+Registers provide the fastest form of access that a computer has. Let me go ahead and introduce you to the family.</p><br>
+<table>
+<tr>
+<th>Registers</th>
+<th>Size</th>
+</tr>
+<tr>
+<td><span class="literal">AL</span>, <span class="literal">AH</span>, <span class="literal">BL</span>, <span class="literal">BH</span>, <span class="literal">CL</span>,
+<span class="literal">CH</span>, <span class="literal">DL</span>, <span class="literal">DH</span>, <span class="literal">R8B</span>, <span class="literal">R9B</span>,
+<span class="literal">R10B</span>, <span class="literal">R11B</span>, <span class="literal">R12B</span>, <span class="literal">R13B</span>, <span class="literal">R14B</span>,
+<span class="literal">R15B</span></td>
+<td>8 bits or 1 byte</td>
+</tr>
+<tr>
+<td><span class="literal">AX</span>, <span class="literal">BX</span>, <span class="literal">CX</span>, <span class="literal">DX</span>, <span class="literal">R8W</span>,
+<span class="literal">R9W</span>, <span class="literal">R10W</span>, <span class="literal">R11W</span>, <span class="literal">R12W</span>, <span class="literal">R13W</span>,
+<span class="literal">R14W</span>, <span class="literal">R15W</span>, <span class="literal">BP</span>, <span class="literal">SP</span>, <span class="literal">DI</span>,
+<span class="literal">SI</span>, <span class="literal">CS</span>, <span class="literal">DS</span>, <span class="literal">ES</span>, <span class="literal">FS</span>,
+<span class="literal">GS</span>, <span class="literal">SS</span>, <span class="literal">IP</span>, <span class="literal">FLAGS</span></td>
+<td>16 bits or 2 bytes</td>
+</tr>
+<tr>
+<td><span class="literal">EAX</span>, <span class="literal">EBX</span>, <span class="literal">ECX</span>, <span class="literal">EDX</span>, <span class="literal">R8D</span>,
+<span class="literal">R9D</span>, <span class="literal">R10D</span>, <span class="literal">R11D</span>, <span class="literal">R12D</span>, <span class="literal">R13D</span>,
+<span class="literal">R14D</span>, <span class="literal">R15D</span>, <span class="literal">EBP</span>, <span class="literal">ESP</span>, <span class="literal">EDI</span>,
+<span class="literal">ESI</span>, <span class="literal">EIP</span>, <span class="literal">EFLAGS</span></td>
+<td>32 bits or 4 bytes</td>
+</tr>
+<tr>
+<td><span class="literal">RAX</span>, <span class="literal">RBX</span>, <span class="literal">RCX</span>, <span class="literal">RDX</span>, <span class="literal">R8</span>,
+<span class="literal">R9</span>, <span class="literal">R10</span>, <span class="literal">R11</span>, <span class="literal">R12</span>, <span class="literal">R13</span>,
+<span class="literal">R14</span>, <span class="literal">R15</span>, <span class="literal">RBP</span>, <span class="literal">RSP</span>, <span class="literal">RDI</span>,
+<span class="literal">RSI</span>, <span class="literal">RIP</span>, <span class="literal">RFLAGS</span></td>
+<td>64 bits or 8 bytes</td>
+</tr>
+</table><br>
+<p>That was a lot to digest. To simplify matters, the majority of the smaller registers above are actually just the same register trimmed down. For example,
+<span class="literal">R8B</span>, <span class="literal">R8W</span>, and <span class="literal">R8D</span> are just smaller portions of the 64-bit register <span class="literal">R8</span>.
+The actual registers that exist on an x86-64 CPU (excluding floating point/MMX/3DNow!/SSE/AVX) are: <span class="literal">RAX</span>, <span class="literal">RBX</span>,
+<span class="literal">RCX</span>, <span class="literal">RDX</span>, <span class="literal">R8</span>, <span class="literal">R9</span>, <span class="literal">R10</span>,
+<span class="literal">R11</span>, <span class="literal">R12</span>, <span class="literal">R13</span>, <span class="literal">R14</span>, <span class="literal">R15</span>,
+<span class="literal">RBP</span>, <span class="literal">RSP</span>, <span class="literal">RDI</span>, <span class="literal">RSI</span>, <span class="literal">RIP</span>,
+<span class="literal">RFLAGS</span>, <span class="literal">CS</span>, <span class="literal">DS</span>, <span class="literal">ES</span>, <span class="literal">FS</span>,
+<span class="literal">GS</span>, and <span class="literal">SS</span>. The segment registers (<span class="literal">CS</span>, <span class="literal">DS</span>,
+<span class="literal">ES</span>, <span class="literal">FS</span>, <span class="literal">GS</span>, and <span class="literal">SS</span>) were never extended beyond 16 bits and exist for mostly
+backward compatibility. Furthermore, the lower 8 bits of <span class="literal">BP</span>, <span class="literal">SP</span>, <span class="literal">DI</span>, and
+<span class="literal">SI</span> can be accessed with <span class="literal">REX</span> prefixing as <span class="literal">BPL</span>, <span class="literal">SPL</span>,
+<span class="literal">DIL</span>, and <span class="literal">SIL</span>. However, I won’t be covering that topic in this tutorial.<br><br>
+The ‘L’ and ‘H’ in <span class="literal">AL</span> and <span class="literal">AH</span> represent the “high” and “low” areas of register <span class="literal">AX</span>.
+<span class="literal">AX</span>, <span class="literal">BX</span>, <span class="literal">CX</span>, and <span class="literal">DX</span> all have these. When the x86-64 architecture was created,
+8 more general purpose registers (GPRs) were added. They are <span class="literal">R8</span>-<span class="literal">R15</span>, respectively. These can also store more compact values by
+appending a ‘B’ for byte, ‘W’ for word, or ‘D’ for double (double word). There is also a name for a 64-bit value: the quadword. This means 16 (word length) * 4 (quad) = 64 bits.<br><br>
+There are rules and caveats to using these registers which I’ll discuss in a section below. Just try and remember <span class="literal">RAX</span>, <span class="literal">RBX</span>,
+<span class="literal">RCX</span>, <span class="literal">RDX</span>, <span class="literal">R8</span>-<span class="literal">R15</span>, <span class="literal">RBP</span>,
+<span class="literal">RSP</span>, <span class="literal">RDI</span>, and <span class="literal">RSI</span>. You’ll be using those the most. I am not going to cover the MMX/3DNow!, SSE, and
+AVX registers and their mnemonics since they are outside the scope of this tutorial (as if all the registers above were not enough!)</p><br>
+<h4>Instruction Set</h4>
+<p>Now that you are familiar with the registers, let’s move on to the AMD64 instruction set. Like the IA32 instruction set before it, the 64-bit instructions consist of mnemonics which
+correspond to opcodes or low-level instructions. These mnemonics enable us to use friendly symbols to call instructions opposed to referencing difficult-to-remember numeric IDs. I have created
+a table below containing some of the many instructions that we will be using for this tutorial. I am also including other common instructions to pique your interest in the hopes that you will
+play around with them on your own.</p><br>
+<table>
+<tr>
+<th>Instruction</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+<tr>
+<td><span class="literal">ADD</span></td>
+<td>Adds two values and stores the result in the destination (first operand). The sum below will be ‘8’ and it will be stored in <span class="literal">RAX</span>.</td>
+<td><pre><code class="language-x86asm">mov rax, 3
+mov rbx, 5
+add rax, rbx</code></pre></td>
+</tr>
+<tr>
+<td><span class="literal">CALL</span></td>
+<td>Performs an unconditional jump to a line of a code. This is not to be confused with <span class="literal">JMP</span> (which does not save the callee location). This instruction is paired
+with <span class="literal">RET</span>.</td>
+<td><pre><code class="language-x86asm">call foo_label</code></pre></td>
+</tr>
+<tr>
+<td><span class="literal">DEC</span></td>
+<td>Decrements a value. We initially copy a value of ‘5’ into <span class="literal">RAX</span> below. The first <span class="literal">DEC</span> instruction causes the value in
+<span class="literal">RAX</span> to change to ‘4’. The last <span class="literal">DEC</span> instruction yields ‘3’.</td>
+<td><pre><code class="language-x86asm">mov rax, 5
+dec rax
+dec rax</code></pre></td>
+</tr>
+<tr>
+<td><span class="literal">INC</span></td>
+<td>Increments a value. We initially copy a value of ‘1’ into <span class="literal">RAX</span> below. The first <span class="literal">INC</span> instruction results in a value of ‘2’. The
+last <span class="literal">INC</span> operation yields ‘3’.</td>
+<td><pre><code class="language-x86asm">mov rax, 1
+inc rax
+inc rax</code></pre></td>
+</tr>
+<tr>
+<td><span class="literal">JMP</span></td>
+<td>Jumps to a location in the code unconditionally.</td>
+<td><pre><code class="language-x86asm">jmp foo_label</code></pre></td>
+</tr>
+<tr>
+<td><span class="literal">JNZ</span>, <span class="literal">JS</span>, <span class="literal">JZ</span>, and friends</td>
+<td>Conditional jumps that determine the state of various bits in <span class="literal">RFLAGS</span>. <span class="literal">JNZ</span> jumps if not zero, <span class="literal">JZ</span>
+jumps if zero, and <span class="literal">JS</span> jumps if signed for example. In this example, the jump to “foo_label” would occur since 1 - 1 = 0. The zero flag would be triggered in
+<span class="literal">RFLAGS</span> as a result of <span class="literal">SUB</span>.</td>
+<td><pre><code class="language-x86asm">mov rax, 1
+sub rax, 1
+test rax, rax
+jz foo_label</code></pre></td>
+</tr>
+<tr>
+<td><span class="literal">LEA</span></td>
+<td>Load effective address. This stores a memory location and is relevant to pointers from languages like C and C++. Remember that <span class="literal">[]</span> references a memory
+location in NASM.</td>
+<td><pre><code class="language-x86asm">lea rax, [foo]</code></pre></td>
+</tr>
+<tr>
+<td><span class="literal">MOV</span></td>
+<td>Copies a value into a register. The following example causes <span class="literal">RAX</span> to contain ‘32’.</td>
+<td><pre><code class="language-x86asm">mov rax, 32</code></pre></td>
+</tr>
+<tr>
+<td><span class="literal">POP</span></td>
+<td>Removes the top value from the stack. In the example below, ‘5’ is pushed onto the stack and then popped off and stored in <span class="literal">RBX</span>.</td>
+<td><pre><code class="language-x86asm">mov rax, 5
+push rax
+pop rbx</code></pre></td>
+</tr>
+<tr>
+<td><span class="literal">PUSH</span></td>
+<td>Pushes a value onto the stack. ‘64’ is placed onto the stack after the following operation completes.</td>
+<td><pre><code class="language-x86asm">mov rax, 64
+push rax</code></pre></td>
+</tr>
+<tr>
+<td><span class="literal">RET</span></td>
+<td>Returns to the original location that called <span class="literal">CALL</span>. This is paired with <span class="literal">CALL</span>.</td>
+<td><pre><code class="language-x86asm">call foo_label
+;execution_resumes_here
+mov r10, 1
+foo_label:
+mov rax, 1
+ret</code></pre></td>
+</tr>
+<tr>
+<td><span class="literal">SUB</span></td>
+<td>Subtract. It functions like <span class="literal">ADD</span>, only in reverse. The result is stored in the destination (first operand). The difference will be ‘4’ in the example below.</td>
+<td><pre><code class="language-x86asm">mov rax, 8
+mov rbx, 4
+sub rax, rbx</code></pre></td>
+</tr>
+<tr>
+<td><span class="literal">SYSCALL</span></td>
+<td>Call a system procedure in long mode. This instruction replaces the <span class="literal">int 0x80</span> instruction which interrupted the kernel in 32-bit Linux.</td>
+<td><pre><code class="language-x86asm">mov rax, some_call
+syscall</code></pre></td>
+</tr>
+<tr>
+<td><span class="literal">TEST</span></td>
+<td>Tests values and toggles bits in <span class="literal">RFLAGS</span> register appropriately. This instruction is frequently used with conditional jumps. In the example below, the value
+of <span class="literal">RAX</span> is tested. If the signed bit in <span class="literal">RFLAGS</span> is on, then jump to another location in the code.</td>
+<td><pre><code class="language-x86asm">test rax, rax
+js foo_label</code></pre></td>
+</tr>
+<tr>
+<td><span class="literal">XOR</span></td>
+<td>Perform an exclusive or. This is often useful for resetting a register to zero and is more efficient than <span class="literal">MOV REG, 0</span>.</td>
+<td><pre><code class="language-x86asm">xor rax, rax</code></pre></td>
+</tr>
+</table><br>
+<p>Hopefully that was not too much to absorb. There are a plethora of other instructions such as <span class="literal">CMP</span>,
+<span class="literal">DIV</span>/<span class="literal">IDIV</span>, and <span class="literal">MUL</span>/<span class="literal">IMUL</span>, but I would like to keep this tutorial limited.</p><br>
+<h4>Memory Models and Operating Modes</h4>
+<p>I would like to briefly touch on memory models and operating modes just so you are in the know. If you do not want the extra information, feel free to skip ahead as this is mostly historical
+in nature. There are several memory models that exist. These various models handle the way that memory is addressed. I am sure many of you remember in recent history when 32-bit operating systems
+were limited to around 4G of RAM. There was something called PAE or Physical Address Extension that enabled you to address &gt;4G of memory. This is actually one model called the paged memory model.<br><br>
+
+There is also the similar segmented model where memory is referred to by a segment and offset. This allowed older x86 architectures like the 8086 to access larger areas of memory (&gt;640K) much like how
+PAE increases memory accessibility. Using segment and offset is more tedious than simply using a single real address.<br><br>
+
+That brings us to the flat model. With this model, you simply refer to an address in its entirety. This is less of a hassle than dealing with memory segmentation. Fortunately, 64-bit Linux operates
+in long mode (which increases the address width for a ton of memory) and uses the flat addressing method. There is no need for memory segmentation (yet) with such a large address space. The masses are
+happy for now…<br><br>
+
+And finally, aside from long mode, there are the three legacy modes that x86-64 supports: protected, real, and virtual. Without going into too much detail, protected is the mode that 32-bit Linux, FreeBSD,
+and Windows ran in. Real mode is what DOS operated in and virtual is a mode that allowed real mode programs to execute in a protected environment.</p><br>
+<h4>Calling Convention</h4>
+<p>This section is important, so pay attention! If you are familiar with C, C++, Java, Ruby, and others, you will know that functions/methods take parameters in a certain order.</p><br>
+<pre><code class="language-cpp">void do_something(int foo, float bar, char* baz)  
+{  
+  /* ... */
+}</code></pre><br>
+<p>We can see that do_something() takes 3 arguments. In order, they are an integer, a float, and a pointer to char. When programming in assembly for 64-bit Linux, you need to obey the same rules.
+Registers are designated to accept values in a specific order when making system calls. The calls you make look for certain data inside these aforementioned registers. If you fail to feed in the
+proper data, you may end up with unexpected inputs and/or outputs. Your program may also segfault.<br><br>
+Now don’t let this scare you off, but 64-bit Linux actually has two calling conventions. Thankfully, it’s easy to know when to use either. Whenever you are making system calls, you shove stuff
+into these registers in this particular order:</p><br>
+<pre><code class="language-plaintext">RAX = system_call_id
+RDI = parameter #1
+RSI = parameter #2
+RDX = parameter #3
+R10 = parameter #4
+R8 = parameter #5
+R9 = parameter #6</code></pre><br>
+<p>The return value almost always ends up in <span class="literal">RAX</span>. You do not have to worry about system calls accepting more than 6 parameters. Otherwise, use the following SysV ABI
+convention (which happens to be the same for FreeBSD, OS X, and Solaris on x64):</p><br>
+<pre><code class="language-plaintext">RDI
+RSI
+RDX
+RCX
+R8
+R9
+XMM0-7 (these are the SSE registers that accept floating-point values)</code></pre><br>
+<p>If you run out of registers to use for passing values to functions in this convention, then you will use the stack which we’ll cover soon. The two conventions are similar with the exception
+of the floating-point registers and <span class="literal">RCX</span>/<span class="literal">R10</span> differ. Microsoft uses a different calling convention in x64 land (fun fact!)</p><br>
+<h4>Segments</h4>
+<p>Not to be confused with segmented memory model; segments are simply sections of code. The three you will commonly find throughout your assembly adventures are the
+<span class="literal">BSS</span>, <span class="literal">data</span>, and <span class="literal">text</span> segments. The <span class="literal">BSS</span> or Block Started by Symbol (also jokingly
+referred to as “Better Save Space”) section is an area where you specify uninitialized variables. For example, I could allocate space for a struct whose members could be filled by a callee as we
+will see in part II of this tutorial.<br><br>
+Next comes the <span class="literal">data</span> segment. This is the area where you define initialized data. One fine example could be a string constant such as a program name and version.
+Last but not least, is the <span class="literal">text</span> segment. This section usually makes up the bulk of the code and is where you perform instructions.</p><br>
+<h4>The Stack</h4>
+<p>The stack is simply a construct in memory that can hold data for us. It is common for this data structure to be likened to a stack of spring-loaded plates at a buffet. Let’s say there are no
+plates at first. We have an empty stack. An employee comes along and begins adding plates to the stack. This is just like what the <span class="literal">PUSH</span> instruction would be doing.
+You <span class="literal">PUSH</span> a value onto the stack. As the employee adds more plates, the first plate that was added gets buried deeper and deeper. The same occurs as you
+<span class="literal">PUSH</span> more data onto the stack. Now, some hungry fellow comes along and removes a plate. You guessed it… <span class="literal">POP</span>! You can either opt to keep
+or throw away upper data in the stack to get at your first “plate”.<br><br>
+Stack management is important. Many programming languages make use of a stack to hold variables local to a function. It is also a common source for trouble such as stack smashing attacks/buffer
+overflows. You can store whatever you’d like in it. The stack is also used when you perform the <span class="literal">CALL</span> instruction. The return address is pushed onto the stack and
+then popped off when you use <span class="literal">RET</span>. This happens automagically.<br><br>
+Let’s illustrate to help solidify your understanding:</p><br>
+<pre><code class="language-x86asm">mov rax, 128
+push rax     ; the stack now has '128' on it
+mov rax, 256
+push rax     ; now the stack has '256' at the top and '128' buried under that
+pop rax      ; '256' was removed off the stack and placed into RAX
+pop rax      ; RAX now contains '128' and '256' is gone forever!</code></pre><br>
+<p>It’s not so bad, eh?</p><br>
+<h4>File Formats</h4>
+<p>This is merely a morsel about file formats. There are a fair amount of them in existence. a.out (old Unix), COFF (Windows PE), ELF (FreeBSD, HP-UX, Linux, and Solaris), and Mach-O (OS X) are
+prominent formats. We will be using ELF64 for the programs we create. This can be done with NASM using the <span class="literal">-f</span> (format) option:
+<span class="literal">nasm -f elf64 -o &lt;output_object_file&gt;.o &lt;input_source_file&gt;.asm</span><br><br>
+Linking is also required to make the executable. We can use <span class="literal">ld</span> for that. The syntax is:
+<span class="literal">ld -o &lt;executable_name&gt; &lt;object_file&gt;.o</span></p><br>
+<h4>Our First Program</h4>
+<p>This is the moment you have been waiting for. Look no further. Our first 64-bit assembly program for Linux is below.</p><br>
+<pre><code class="language-x86asm">[BITS 64]
+
+section .bss
+  ; nada
+
+section .data
+  prompt:          db 'What is your name? '
+  prompt_length:   equ $-prompt
+  name:            times 30 db 0
+  name_length:     equ $-name
+  greeting:        db 'Greetings, '
+  greeting_length: equ $-greeting
+
+section .text
+global _start
+_start:
+  ; Prompt the user for their name
+  mov rax, 1                ; '1' is the ID for the sys_write call
+  mov rdi, 1                ; '1' is the file descriptor for stdout and our first argument
+  mov rsi, prompt           ; prompt string is the second argument
+  mov rdx, prompt_length    ; prompt string length is the third argument
+  syscall                   ; make the call with all arguments passed
+
+  ; Get the user's name
+  mov rax, 0                ; 0 = sys_read
+  mov rdi, 0                ; 0 = stdin
+  mov rsi, name
+  mov rdx, name_length
+  syscall
+  push rax                  ; store return value (size of name) on the stack... we'll need this for later
+
+  ; Print our greeting string
+  mov rax, 1                ; 1 = sys_write
+  mov rdi, 1                ; 1 = stdout
+  mov rsi, greeting
+  mov rdx, greeting_length
+  syscall
+
+  ; Print the user's name
+  mov rax, 1                ; 1 = sys_write
+  mov rdi, 1                ; 1 = stdout
+  mov rsi, name
+  pop rdx                   ; length previously returned by sys_read and stored on the stack
+  syscall
+
+  ; Exit the program normally
+  mov rax, 60               ; 60 = sys_exit
+  xor rdi, rdi              ; return code 0
+  syscall</code></pre><br>
+<p>All those lines to do something trivial makes you appreciate writing in higher-level languages, doesn’t it? ;)<br><br>
+Anyway, let’s assemble and link this bad boy…</p><br>
+<pre><code class="language-shell">[lloyd@lindev ~/asm]$ nasm -f elf64 -o greet.o greet.asm
+[lloyd@lindev ~/asm]$ ld -o greet greet.o
+[lloyd@lindev ~/asm]$ ./greet
+What is your name? Lloyd
+Greetings, Lloyd</code></pre><br>
+<p>Try it yourself!</p><br>
+<h4>Breaking it Down</h4>
+<p>You should understand the segments, instructions, registers, calling convention, and stack. The comments should also help, but let’s discuss the stuff you haven’t seen yet…<br><br>
+<span class="literal">[BITS 64]</span> at the top of our source code specifies the target processor mode. Per the NASM documentation, you do not always need this, but it certainly helps document
+the type of code you are writing. A semicolon allows for a single-line comment. The assembler will ignore any text that comes after it. The “section” keyword denotes the segment. Segments begin with
+a period in NASM. We have <span class="literal">.bss</span>, <span class="literal">.data</span>, and <span class="literal">.text</span> segments in our code. Variables and constants are defined by
+labels. The syntax for a label should be a meaningful name followed by a colon. Labels are also used as jump points. You can <span class="literal">JMP</span> and <span class="literal">CALL</span> to
+them.<br><br>
+“<span class="literal">db</span>” stands for “data byte”. There is also <span class="literal">dw</span> (data word), <span class="literal">dd</span> (data double(word)), <span class="literal">dq</span>
+(data quad(word)). This specifies the storage requirements of the data. In the <span class="literal">BSS</span> segment, there are similar keywords to reserve data of the same types. Those keywords
+are: <span class="literal">resb</span> (reserve byte), <span class="literal">resw</span> (reserve word), <span class="literal">resd</span> (reserve double(word)), and <span class="literal">resq</span>
+(reserve quad(word)).<br><br>
+“<span class="literal">equ $-</span>” is a slick way to calculate the length of a string. “<span class="literal">times 30 db 0</span>” sets aside 30 bytes of storage space for a string and zeroes
+it out. A word of caution: input length is not checked. A string over 30 bytes will be interpreted by the shell. To remedy this bug, you can either increase the buffer size (change 30 to 255 bytes
+for example) or sanitize the string/flush anything beyond the length. I am not including that functionality since it would increase code complexity for the reader. If you really want to prevent
+spillage, see <a href="http://www.dreamincode.net/forums/topic/286248-nasm-linux-terminal-inputoutput-wint-80h/">Gunner’s NASM I/O Tutorial</a>. The code is in 32-bit mode, but can be easily adapted
+by replacing the interrupt instruction with <span class="literal">SYSCALL</span> and modifying the registers to meet the 64-bit Linux calling convention.<br><br>
+Finally, “<span class="literal">global _start</span>” with a label of “<span class="literal">_start:</span>” signifies the main entry point of the program much like <span class="literal">main()</span>
+for C, C++, and Java.</p><br>
+<h4>Where Do I Go from Here?</h4>
+<p>I highly recommend using <a href="http://blog.rchapman.org/post/36801038863/linux-system-call-table-for-x86-64">Ryan Chapman’s x86_64 Linux System Call Table</a> to play around with various
+system calls. Practice loading the appropriate registers with the proper data. Be aware of what the system calls are doing however. You do not want to inadvertently overwrite or remove files.
+I also recommend using the various instructions to see how they can affect data stored within registers. Try incrementing and decrementing values, perform some jumps, and push/pop some stuff onto/off
+the stack. Feel free to use my code as a starting point or the template below.</p><br>
+<pre><code class="language-x86asm">[BITS 64]
+
+section .bss
+
+section .data
+
+section .text
+global _start
+_start:
+  ; Your code here
+
+  ; Exit the program normally
+  mov rax, 60      ; 60 = sys_exit
+  xor rdi, rdi     ; return code 0
+  syscall</code></pre><br>
+<p>I will also be releasing part II of this tutorial in a week or two. I will discuss endianness, demonstrate analogous C code, and we will create a 64-bit assembly program for Linux that listens
+on a TCP port and accepts network connections. How cool is that?<br><br>
+I hope you have enjoyed this tutorial and that it has helped you in some way. Feel free to link to it.</p><br>
+<div class="mid">
+[ <a href="http://dilley.me/">Home</a> ]
+</div>
+</div>
+<div id="footer">
+<br>
+<a href="https://jigsaw.w3.org/css-validator/validator?uri=http%3A%2F%2Fdilley.me%2F&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en"><img src="css.png" alt="Valid CSS"></a> 
+<a href="https://validator.w3.org/nu/?doc=https%3A%2F%2Fdilley.me%2Flinux_x64_assembly_part1.html"><img src="html5.png" alt="Valid HTML5"></a><br><br>
+<a href="http://www.freebsd.org/"><img src="freebsd_powered.gif" alt="Powered by FreeBSD"></a>
+<br><br><p>Copyright &copy; 2009-2024 Lloyd Dilley</p><br>
+</div>
+</body>
+</html>

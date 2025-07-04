@@ -1,0 +1,502 @@
+Note: This is an archived copy. The original document can be found at: http://www.uox3.org/history/timeline.txt
+
+General UO Emulator Timeline
+
+----------------------------
+
+(Go here for an html-version of the Timeline: https://www.uox3.org/history/timeline.shtml )
+
+
+
+Here follows a quick timeline of UO emulators, based on facts, fiction and wild guesses, numbered
+
+from first to last. I've included any dates I've been able to dig up, as well as the current (when I checked)
+
+homepages that exist for the various emus. Feel free to point out any flaws by contacting me at xuri@uox3.org.
+
+
+
+(1)UOX -> (2)UOX2 -> (4)UOX3 ->
+
+			|
+
+			|-> (10)UOXGold
+
+			|
+
+			|-> (10)AUOX -> (11)AUOXCON
+
+			|
+
+			|-> (13)Wolfpack
+
+			|		|
+
+			|		|-> (14)Sunshine/Sushix
+
+			|		|
+
+			|		|-> (16)NOX-Wizard
+
+			|		|		|
+
+			|		|		| -> (25)Revelation
+
+			|		|		|
+
+			|		|		| -> (36)equinox
+
+			|		|		|
+
+			|		|		| -> (31)Hypnos: UO Server Emulator
+
+			|		|
+
+			|		|-> (17)Lonewolf
+
+			|		|		|
+
+			|		|		|-> (20)UO-Inside Out
+
+			|		|		|
+
+			|		|		|-> (21)Method
+
+			|		|		|
+
+			|		|		|-> (40)Werewolf
+
+			|		|
+
+			|		|-> (18)The Shard
+
+			|
+
+			|-> (12)UOX-pi
+
+			|
+
+			|-> (13)LoC
+
+			|
+
+			|-> (19)UOX Classic
+
+			|		|
+
+			|		|-> (29)UOX:NG
+
+			|
+
+			|-> (24)Middle-Earth Custom UOX
+
+			|
+
+			|-> (28)UOX3 "Unofficial"
+
+			|
+
+			|-> (43)uoOS
+
+
+
+(?)UOR
+
+(3)Fuse
+
+    |
+
+    |-> CFuse
+
+    |
+
+    |-> Thayland's Fuse
+
+    |
+
+    |-> FuseX
+
+
+
+(5)NWO/UOAWE/UOR/Unnamed
+
+
+
+(6)Grayworld -> TUS -> Sphere/SphereServer
+	|
+
+	|-> 0.56d (Main branch)
+
+	|
+
+	|-> SphereServer X
+
+	|
+
+	| -> 1.0 (dead end)
+
+
+
+(7)UOOS
+
+    |-> (Swords, never finished?)
+
+
+
+(8)POL
+
+
+
+(9)Trespasser -> Hellfire -> Hybrid
+
+
+
+(15)Epsilon
+
+
+
+(22)Atum
+
+
+
+(23)Tupi
+
+
+
+(26)RunUO
+
+    |->(36)RunUO-RE (later renamed RuOSI)
+
+    |
+
+    |->(38)SunUO
+
+    |
+
+    |->(43)ForkUO (later renamed ServUO)
+
+    |
+
+    |->(46)JustUO
+
+    |
+
+    |->(47)XRunUO
+
+    |
+
+    |->(49)ModernUO
+
+    |
+
+    |->(50)ServUOX
+
+
+
+(27)SteamEngine
+
+
+
+(30)MyUO
+
+
+
+(32)Psychotropic
+
+
+
+(33)AUOE
+
+
+
+(34)Athena
+
+
+
+(35)Canera-Project
+
+
+
+(39)Ultima Online: Shattered Legacy Server
+
+
+
+(41)UO:98
+
+
+
+(42)JUOServer
+
+
+
+(45)JPhex Server
+
+
+(48)UltimaPHP
+---------------------------------------------------------------------------------------------
+
+
+
+1997
+
+1.) Jaegermeister (Denny Zuko?) creates the first version of UOX (Ultima Offline eXperiment)
+
+2.) Cironian creates UOX2, rewriting UOX from scratch
+
+3.) Fallo creates FUSE, a server expandable by user-made DLL-addons, such as CFuse, Thayland's DLL, and FuseX.
+
+4.) Cironian redoes UOX2, and the first public UOX3 version (0.37) is released Oct 22. 1997.
+
+?.) UOR - Ultima Online Revisited. Mentioned by Cironian at the time as the only other UO server emulator around.
+
+
+
+1998/99
+
+5.) A bunch of other UO servers that never really took off generally come to a halt when Cironian releases source for UOX3, including; New World Order, UOAWE(http://uoawe.vnet.net/wwwboard/ - started Feb 9. by Gabriel), and An unnamed UO Server(http://www.andreasen.org/uo/) by Erwin S. Andreasen.
+
+6.) Menace creates Grayworld early in 1998. It eventually evolves into TUS (The Ultimate Server), which again evolves into Sphere (aka Sphereserver, http://www.sphereserver.com) around April 2000. A fork (SphereServer X) has been maintained alongside the main branch since 2016.
+
+7.) Sheppard creates UOOS - the first object oriented UO emu, or something.
+
+8.) Eric N. Swanson, aka Syzygy, creates POL (http://www.polserver.com) in the summer of 1998.
+
+9.) What was later to become Hybrid was started sometime in 1998, around the time when the source for FUSE was released, and back then it went under the name Trespasser. Later it changed name to Hellfire, before being renamed as Hybrid.
+
+10.) Armageddon makes his own version of UOX3, named AUOX,  causing the first "branching" of any UO emu to occur :P
+
+    Some other people start working on another branch of UOX3, which they call "UOXGold".
+
+11.) SpaceDog continues Armageddon's AUOX through "AUOXCon"(tinued)
+
+
+
+2000
+
+12.) Lord Binary does his own version of UOX3, called UOX-pi (http://stud1.tuwien.ac.at/~e9425109/uox3_1.htm) - later to be merged into Wolfpack.
+
+13.) Ripper's customized UOX3 code grows into Wolfpack (http://www.wpdev.org/), while Chaos's customizations become Legions of Chaos
+
+14.) Sunshine (http://www.sf.net/projects/sushix), a derivate work of an early Wolfpack version, is started by M. Strobl sometime in 2000. In 2003, version 3 of Sunshine is reforked from Wolfpack, because of memory restraints/unreadable codebase in the original fork. The successor of Sunshine, Sushix, is never officially released.
+
+
+
+2001
+
+15.) Epsilon is started by Kair in May 2001
+
+16.) NOX-Wizard is created by xan using Wolfpack as base (25. June 2001)
+
+17.) Wolfpack development splits in two as some WP devs pack up and start Lonewolf (https://lw.uox3.org/) on November 9th, 2001.
+
+18.) The Shard Emulator, a Wolfpack v12.6 based emu, is started at the same time as Lonewolf.
+
+19.) As the main UOX3 codebase drops the trigger-system and goes to a javascripting engine (https://www.uox3.org), spearheaded by Matthew Randall (EviLDeD) and Daniel Stratton (Abaddon), Sargo decides to continue the trigger-based UOX3-source under the fitting "UOX Classic" (http://www.uoxclassic.com) name, on Nov. 17, 2001.
+
+
+
+2002
+
+20.) UO-Inside Out, a Lonewolf derivate started by Skyfire?, releases it's first version in early January.
+
+21.) Method (http://www.necrotic.net/method/), a project derived from Lonewolf, is started by Melchir in early February 2002.
+
+22.) Atum, a russian developed UO Emu, has it's first release in February 2002. It's closed source, and has no released packages.
+
+23.) Version 0.1 of Tupi (http://www.sf.net/projects/tupi), a server written in Java, is released on the 4th of February 2002 by speka/dalzhim.
+
+24.) Middle-Earth Custom UOX (https://sourceforge.net/projects/middlearthuox/), a fork of UOX3 by Sargo, sees its first release on February 11th, 2002.
+
+25.) Revelation (http://www.sf.net/projects/revelationemu), based on NOX-Wizard, enters the scene, on Aug 21st, 2002.
+
+26.) Krrios reveals RunUO (http://www.runuo.com) in early september 2002 - the first UO emu written in C#. Official development ended in August 2014, after nearly 12 years.
+
+27.) Shadowlord starts working on SteamEngine (http://steamengine.ultima.cz/), an open-source UO emu mimicing Sphereserver's functionality, on Sept. 29th, 2002.
+
+
+
+2003
+
+28.) punt starts up UOX3 "Unofficial" (http://uoxe.sourceforge.net/) on the first day of 2003, intending to rewrite the "JS"UOX3-version.
+
+29.) UOX:NG - derivate work of UOX-Classic, started with big-endian 64 bit machines in mind, by Generic Player
+
+30.) MyUO (http://myuo.sourceforge.net/) is created by Fabrizio Montesi, in October 2003.
+
+31.) Hypnos: UO Server Emulator (https://github.com/Flameeyes/hypnos), a fork of NOX-Wizard by Diego Elio Pettenò (Flameeyes), has its first CVS commit on 28th of December, 2003. Goals: To combine the power of UOX and the ease-of-use of Sphere, with a dynamically loaded, python-based scripting engine.
+
+32.) Psychotropic - A successor project to Hybrid, is started in December 2003 by Ian McNealy
+
+
+
+2004
+
+33.) The initial revision of the source for AUOE (Advanced Ultima Online Emulator - https://sourceforge.net/projects/auoe/) is submitted to SourceForge on the 2nd of March, 2004, by f0xfire
+
+34.) Athena - started March 10, 2004 by Kair
+
+35.) Canera-Project - closed source project started 03-15-2004 by Sargo
+
+36.) equinox - spin-off from NoxWizard makes it appearance on SourceForge on the 19th of September 2004
+
+37.) Initial version of RunUO-RE (Russian Edition - http://www.ruosi.org) is released to the public on New Year's Eve in 2004 by Wyatt, as a fork based off of 3rd party decompiled sources for the then closed-source RunUO, though it was later migrated over to the open-source version of RunUO. Eventually, from version 1.5.0 (with UO:SA support), it was renamed to RUOSI. Supports enhanced client and all expansions.
+
+
+
+2005
+
+38.) Max Kellermann forks SunUO (http://www.sunuo.org) from RunUO on February 5th, 2005. It runs on Mono 1.1 (Linux, FreeBSD) out of the box.
+
+39.) First release of Ultima Online: Shattered Legacy Server (http://www.uoana.de/) occurs on May 30th, 2005, by Maximilian Scherr (Max), though it had been under development on/off since summer 2002, and included a rewrite from scratch in 2003. It's intended for the Alpha version of the Ultima Online client.
+
+40.) Zagyg starts Werewolf - based on Lonewolf - on December 7th, 2005.
+
+
+
+2011
+
+41.) UO:98 is released (http://projects.joinuo.com/redmine/projects/uo98) on December 7th 2011, by Batlin. It is a port of the UO Demo server into a fully functional multiplayer UO server.
+
+
+
+2012
+
+42.) JUOServer (https://sourceforge.net/projects/juoserver/) makes its appearance on SourceForge on January 22nd 201, as a Java-based Ultima Online server.
+
+43.) uoOS (http://sourceforge.net/p/uoos/wiki/Home/) (uo Old School?), puts up the first public version of its source-code on 7th of July 2012, which is a branch off of UOX3 0.9x
+
+44.) ForkUO (Originally called WalkUO?) is forked from RunUO at Google Code (http://code.google.com/p/forkuo/) on September 5th 2012 and then later moved to Assembla (https://www.assembla.com/spaces/forkuo/wiki). On March 19th 2013 the project was renamed to ServUO (https://github.com/ServUO/ServUO)
+
+
+
+2013
+
+45.) Jphex Server - a combined server and client emulator for Ultima Online: Shattered Legacy (UO Pre-Alpha version) - was created and committed to Google Code (https://code.google.com/archive/p/jphex/) on Oct 13th, 2013, by Folke Will. Also available on GitHub (https://github.com/fpw/uosl)
+
+
+2014
+
+46.) JustUO (https://github.com/JustUO/JustUO), a fork of RunUO by Dian, is uploaded to github on October 17th, 2014
+
+2015
+
+47.) XRunUO - Forked from RunUO by Pedro Pardal (ppardalj/Semerkhet) in late 2005 and originally developed for the UO Legends shard with expressed intention of having full support for Stygian Abyss expansion. Source released to public on July 22nd, 2015
+
+48.) UltimaPHP (https://github.com/joaoescribano/UltimaPHP) - an open-source UO Server written in PHP 7 - has its first code committed to github on Aug 8th, 2015, by João Escribano
+
+
+
+2017
+
+49.) ModernUO (https://github.com/modernuo/ModernUO) - a fork of RunUO by Kamron makes it debut in 2017. The goal of the fork was performance, the elimination of classical "world saves" and support for millions of objects and thousands of players.
+
+
+2020
+
+50.) ServUOX (https://github.com/ServUOX/ServUOX) - a fork of RunUO by Frazurbluu and Malroth, receives its first commit on GitHub on March 26th, 2020
+
+Servers not placed in timeline as of yet(any info about these will be appreciated!):
+
+?.) LCUOSE, based on UOX3, lives a short life and decays quickly.
+
+?.) LOP makes a short entrance, but doesn't stay for long.
+
+?.) UO:Genius
+
+?.) UO Free
+
+?.) Orb
+
+?.) Ethereal Void (https://web.archive.org/web/20050422222341/http://uol.vanilluh.com/archives/ethereal_void/index.html) was a project to create a server for the pre-alpha version of UO. Information about how successful this was is lacking.
+
+?.) RUOSI - a Russian-based fork from RunUO.
+
+?.) UWE - Ultima Worlds Emulator, scripting module in python, active around March-April 2001? Jeff Gass/Cyborstinger?
+
+?.) BK-UOX/Quetzal16 - Offshot from UOX3, customized for the Italian shard Britannia Kingdom. Eventually evolved into Quetzal16, then replaced with Quetzal32 (non-UOX based) - https://web.archive.org/web/20060510120052/http://quetzal.igz.it/main_it.html
+
+|---------------------------------------------------------------------|
+
+|	Summary of Dates dug up:						  				 |
+
+|---------------------------------------------------------------------|
+
+UOX3 - 22.Oct 1997 - by Cironian (Markus Rating)
+
+Grayworld - Early 98 - by Menace
+
+UOAWE - Monday Feb 9, 1998 - by Gabriel
+
+POL - Summer 1998 - by Syzygy
+
+Hybrid - 1998 - by McNealy, Sean Rose and Cycline3
+
+UOX-pi - 8th Jan 2000 - by LB
+
+Epsilon - May 2001 - by Kair
+
+NoX-Wizard - 25.June 2001 - by xan
+
+Revelation - August 21st 2001 - by ???
+
+Lonewolf - 9th November 2001 - by LB & ???
+
+Shard Emulator - 9th November 2001 - by frazurbluu
+
+UOX-Classic - Nov. 17, 2001 - by Sargo
+
+Method - February 10th 2002 - by Malchir
+
+Atum - February 2002 - by Ramsess
+
+Tupi - February 4th 2002 - by Guilherme Lanius (speka)/Gabriel Abut-Lussier(dalzhim)
+
+RunUO - September 2002 - by Krrios
+
+SteamEngine - 29. September 2002 - by Shadowlord
+
+UOX3 "Unofficial" - 1st January 2003 - by punt
+
+UOX:NG - September 2003 - by Generic Player
+
+MyUO - October 2003 - by Luxor (Fabrizio Montesi)
+
+Hypnos: UO Server Emulator - December 28th 2003 - by Diego Elio Pettenò
+
+Psychotropic - December 2003 - Ian McNealy
+
+AUOE - March 2nd 2004 - f0xfire
+
+Athena - March 10th 2004 - by Kair
+
+Canera-Project - March 15th 2004 - by Sargo
+
+equinox - September 19th 2004 - by prisonernumber7
+
+RunUO-RE/RUOSI - December 31st 2004 - by Wyatt
+
+SunUO - February 5th 2005 - by Max Kellermann
+
+Ultima Online: Shattered Legacy Server - May 30th 2005 - by Maximilian Scherr (Max
+
+Werewolf - December 7th 2005 - by Zagyg
+
+UO:98 - December 7th 2011 - by Batlin
+
+JUOServer - January 22 2012 - by daneel_olivaw
+
+uoOS - July 11th 2012 - by Xantier
+
+ForkUO - September 5th 2012 - by AugmentedInsanity. Renamed to ServUO on March 19th, 2013
+
+JPhex Server - October 13th 2013 - by Folke Will
+
+JustUO - October 17th 2014 - by Dian
+
+XRunUO - July 22nd 2015 - Pedro Pardal
+
+UltimaPHP - Aug 8th 2015 - by João Escribano
+
+ModernUO - 2017 - by Kamron
+
+ServUOX - March 26th 2020 - by Frazurbluu and Malroth

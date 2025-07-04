@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dilley Dot Me: JVM Memory Tuning</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="highlight/styles/default.min.css">
+<script src="highlight/highlight.min.js"></script>
+</head>
+<body>
+<div id="header">
+<h2><a href="http://dilley.me/">Dilley Dot Me</a></h2>
+</div>
+<div id="main">
+<h3 class="section">JVM Memory Tuning</h3>
+<div class="mid">
+<br><span class="created">Created on 2014-09-02</span>
+</div><br>
+<h4>Introduction</h4>
+<p>The Java Virtual Machine (JVM) can be tuned to meet your program’s memory needs. I will be discussing the various memory options along with how you can monitor the status of your Java programs.
+</p><br>
+<h4>Two Mounds</h4>
+<p>Let’s start by looking at the various types of memory that Java uses. As you may already know, Java manages memory for you automatically (much like C# and Ruby do) via a process called garbage
+collection. There are two areas of memory in Java just like in C and C++. These areas are referred to as the stack and the heap. The stack is where local primitive variables, local object references
+(just the memory address/location of object data and not the actual object contents itself), and sometimes objects go (using a compile-time optimization as of Java 6 called 
+<a href="http://en.wikipedia.org/wiki/Escape_analysis">escape analysis</a>). Also note that method parameters are considered local to the method where they are declared. When a code block or method
+goes out of a scope, the local variables go away. Any local reference variables pointing to objects are also gone. When there are no more references pointing to a particular object, the object is
+garbage collected and that location can be used again by another object. Since Java emphasizes concurrent programming, it is also worth mentioning that each thread has its own stack.<br><br>
+The heap typically contains the bulk of data for a Java program. Objects and their static and instance members reside on the heap. Have a look at the program below to help illustrate this information.
+</p><br>
+<pre><code class="language-java">class Example
+{
+  public static int total = 0; // heap
+  protected int a;             // heap
+  protected int b;             // heap
+
+  public static String sumOf(int a, int b) // primitives 'a' and 'b' live on the stack
+  {
+    String c = "The sum is: " + (a + b);   // reference 'c' lives on the stack
+                                           // but, "The sum is: ..." lives on the heap
+    total += a + b;
+    return c;
+  }
+
+  public static void main(String[] args)
+  {
+    Example example = new Example();
+
+    example.a = 5;  // example reference is on the stack and value '5' is on the heap
+    example.b = 10; // example reference is on the stack and value '10' is on the heap
+
+    System.out.println(sumOf(example.a, example.b));
+  }
+}</code></pre><br>
+<p>Remember though that objects <em>may</em> be allocated on the stack at times depending on what the compiler decides.</p><br>
+<h4>Analyzing Java Processes</h4>
+<p>You can get an idea of how much total memory (stack + heap) your program is consuming using Task Manager (<span class="literal">taskmgr.exe</span>), <span class="literal">ps</span>,
+<span class="literal">/proc</span>, <span class="literal">pmap</span>, <span class="literal">top</span>, Activity Monitor, and the like. The Java Development Kit (JDK) actually contains
+some useful utilities for looking at running Java programs. These utilities live under the <span class="literal">$JAVA_HOME/bin</span> directory. First off, there's
+<span class="literal">jps</span>. This command displays running Java processes. It provides the PID (process ID) and name of the program. Below is an example of its output.</p><br>
+<pre><code class="language-shell">[lloyd@lindev ~]$ jps
+9515 Jps
+9464 LinPot
+[lloyd@lindev ~]$ ps -ef | grep -v grep | grep 9464
+lloyd   9464  9217  0 03:46 pts/0    00:00:00 java me.dilley.linpot.LinPot
+</code></pre><br>
+<p>Now that we have the PID of a running Java process, let's investigate it some more using the <span class="literal">jmap</span> utility. To use <span class="literal">jmap</span>, grab
+the PID of a running Java process you want to attach to. You can easily find running Java processes with <span class="literal">jps</span> as shown above.</p><br>
+<pre><code class="language-shell">[lloyd@lindev ~]$ jmap -heap 9464
+Attaching to process ID 9464, please wait...
+Debugger attached successfully.
+Server compiler detected.
+JVM version is 24.65-b04
+
+using thread-local object allocation.
+Parallel GC with 2 thread(s)
+
+Heap Configuration:
+   MinHeapFreeRatio = 0
+   MaxHeapFreeRatio = 100
+   MaxHeapSize      = 698351616 (666.0MB)
+   NewSize          = 1310720 (1.25MB)
+   MaxNewSize       = 17592186044415 MB
+   OldSize          = 5439488 (5.1875MB)
+   NewRatio         = 2
+   SurvivorRatio    = 8
+   PermSize         = 21757952 (20.75MB)
+   MaxPermSize      = 174063616 (166.0MB)
+   G1HeapRegionSize = 0 (0.0MB)
+
+Heap Usage:
+PS Young Generation
+Eden Space:
+   capacity = 8912896 (8.5MB)
+   used     = 1434848 (1.368377685546875MB)
+   free     = 7478048 (7.131622314453125MB)
+   16.098561006433822% used
+From Space:
+   capacity = 1048576 (1.0MB)
+   used     = 0 (0.0MB)
+   free     = 1048576 (1.0MB)
+   0.0% used
+To Space:
+   capacity = 1048576 (1.0MB)
+   used     = 0 (0.0MB)
+   free     = 1048576 (1.0MB)
+   0.0% used
+PS Old Generation
+   capacity = 21495808 (20.5MB)
+   used     = 0 (0.0MB)
+   free     = 21495808 (20.5MB)
+   0.0% used
+PS Perm Generation
+   capacity = 22020096 (21.0MB)
+   used     = 4385528 (4.182365417480469MB)
+   free     = 17634568 (16.81763458251953MB)
+   19.916025797526043% used
+
+1131 interned Strings occupying 76888 bytes.</code></pre><br>
+<p><span class="literal">jmap</span> is handy since it provides a detailed view of the heap. Don't worry if this output looks unintelligible. We shall decipher it together. We'll skip the
+thread-local object allocation setting since it is outside the scope of this post. It is enabled by default and can be toggled with the <span class="literal">-XX:UseTLAB</span> option. You
+can read more about it <a href="http://blogs.oracle.com/jonthecollector/the-real-thing">here</a> if you are interested.</p><br>
+<h4>Taking Out the Trash</h4>
+<p>Next comes the garbage collection method. My Java 7 JVM is using parallel garbage collection by default. This method uses multiple threads to perform collection. It can be explicitly
+enabled with the <span class="literal">-XX:+UseParallelGC</span> option. The JVM also supports "Mark Sweep Compact Garbage Collection" which is a serial collection method recommended for
+systems with a single processor or for applications with small amounts of data. <span class="literal">-XX:+UseSerialGC</span> is used to enable it. Lastly,
+<span class="literal">-XX:+UseConcMarkSweepGC</span> enables the concurrent collector. This collection method aims to increase application response time by minimizing pausing. If concurrent
+collection incurs significant pausing, you can enable incremental mode with <span class="literal">-Xincgc</span> which should shorten the pauses.<br><br>
+To summarize:</p><br>
+<h5>Serial Garbage Collection</h5>
+<ul>
+<li>Enabled with <span class="literal">-XX:+UseSerialGC</span></li>
+<li>Also called "Mark Sweep Compact Garbage Collection"</li>
+<li>Useful on systems with a single processor</li>
+<li>Useful when object data does not exceed 100MB</li>
+</ul><br>
+<h5>Parallel Garbage Collection</h5>
+<ul>
+<li>Enabled with <span class="literal">-XX:+UseParallelGC</span></li>
+<li>Is similar to the serial method, but uses multiple threads for collection</li>
+<li>Useful on systems with multiple processors</li>
+<li>Number of collector threads can be controlled with <span class="literal">-XX:ParallelGCThreads=&lt;number&gt;</span></li>
+<li>The number of collector threads should be equal to the number of system cores</li>
+</ul><br>
+<h5>Concurrent Garbage Collection</h5>
+<ul>
+<li>Enabled with <span class="literal">-XX:+UseConcMarkSweepGC</span></li>
+<li>Useful on systems with multiple processors</li>
+<li>Useful for low-latency applications such as 3D games</li>
+<li>Can be told to collect incrementally with <span class="literal">-Xincgc</span> which lessens pausing that may occur during collection</li>
+<li><span class="literal">-Xincgc</span> is the equivalent of specifying <span class="literal">-XX:+UseConcMarkSweepGC</span> and <span class="literal">-XX:+CMSIncrementalMode</span></li>
+<li>Is a good default to use</li>
+</ul><br>
+<p>You can monitor garbage collection statistics to see which algorithm works best for your program by enabling the following JVM options:</p><br>
+<pre><code class="language-shell">-verbose:gc
+-XX:+PrintGCDetails
+-XX:+PrintGCTimeStamps</code></pre><br>
+<p>I’d also like to bring up compaction. Just like filesystems on a hard disk can become fragmented, so too can the heap. You may already know that some data structures such as arrays are
+allocated in memory sequentially. Let’s say for the sake of simplicity that there is 1 simple 1-byte object on the heap followed by a sequential array of 1,000 1-kilobyte elements and then
+1 other simple 1-byte object. What happens when the array is garbage collected and a new larger array needs room on the heap? It is not a very efficient use of space to have many gaps.
+Compaction mitigates this issue by squeezing data closer together.
+</p><br>
+<h4>Digging Through the Heap</h4>
+<p>As if things weren’t complicated enough, Java breaks up the heap into other segments where objects reside. These segments are called generations. Different implementations of the JVM may
+use different terms to describe these areas. However, they are all generational. This means that objects essentially age. When an object is created, it is spawned in the young/new/Eden space.
+One exception is that if the object is rather large, it will go directly to the tenured/old generation which typically is larger in size. If all references to the object go away, it is marked
+for collection. If the object survives, it grows older and is moved to the tenured area. And as you guessed, if an object is geriatric, it will live in the retirement housing area known as the
+old generation space. “PS” in this context means “parallel scavenge” and simply reflects the garbage collection algorithm employed. If you change from parallel collection to serial or concurrent,
+the number of areas and names may change.<br><br>
+
+I have not yet touched on the permanent generation area, but I will do so in the summary of heap areas below.</p><br>
+<h5>Eden/New</h5>
+<ul>
+<li>Part of the young generation</li>
+<li>Where new objects are freshly allocated (unless they are too large – then they go directly to the tenured/old generation)</li>
+<li>Used for quick allocation</li>
+</ul><br>
+<h5>Survivor (or “From Space” and “To Space”)</h5>
+<ul>
+<li>Also part of the young generation</li>
+<li>Objects that survive Eden/New space collection become survivors</li>
+<li>The “From” and “To” space roles are swapped once one area has been collected and cleared (one is usually empty)</li>
+</ul><br>
+<h5>Tenured/Old</h5>
+<ul>
+<li>Objects that make it past the survivor phase retire to the tenured/old space to live out their days (or minutes/hours)</li>
+<li>This area is not as frequently collected as the Eden/New space</li>
+<li>Objects that are deemed too large skip the young generation altogether and go here</li>
+</ul><br>
+<h5>Permgen</h5>
+<ul>
+<li>The permanent generation</li>
+<li>Loaded class information lives here such as reflective information about classes (metadata) and interned strings (until Java 7 at least)</li>
+</ul><br>
+<p>The bit about interned strings provides details of how many string objects have been added to the string intern pool. This is an optimization that stores unique instances of string literals
+thus reducing memory usage.</p><br>
+<h4>Bending the JVM to Your Will</h4>
+<p>You might be wondering why we did not cover the heap configuration section of the <span class="literal">jmap</span> output yet. You may also be pondering when and why you would want to change
+the way the JVM handles memory and how. Wonder and ponder no more. Read on for the respective JVM options and the situations in which you would modify them.</p><br>
+<h5><span class="hliteral">-Xss&lt;number&gt;[M]</span></h5>
+<ul>
+<li>Sets the thread stack size. Even if you have not created threads explicitly, your program is a single thread. If you have a large call stack or are making heavy use of recursion, you will
+want to increase this value. You’ll know when you start receiving <span class="literal">StackOverflowError</span> messages.</li>
+<li>Example which sets the stack size to 2 megabytes: <span class="literal">java -Xss2M someClass</span>
+</ul><br>
+<h5><span class="hliteral">-Xms&lt;number&gt;[M/G]</span> and <span class="hliteral">-Xmx&lt;number&gt;[M/G]</span></h5>
+<ul>
+<li>Sets the minimum and maximum heap size. If you are loading a significant amount of objects in memory and see <span class="literal">java.lang.OutOfMemoryError: Java heap space</span>, you’ll
+want to increase these values.</li>
+<li>Example which sets the initial heap to 512M and maximum heap size to 4G: <span class="literal">java -Xms512M -Xmx4G someClass</span></li>
+</ul><br>
+<h5><span class="hliteral">-Xmn&lt;number&gt;[M/G]</span></h5>
+<ul>
+<li>Sets the total size of the young generation. ⅓ the size of <span class="literal">-Xmx</span> is usually a decent value. If you have frequent allocation of a large number of objects, you
+should consider increasing this value.</li>
+<li>Example: <span class="literal">java -Xmx3G -Xmn1G someClass</span></li>
+</ul><br>
+<h5><span class="hliteral">-XX:PermSize=&lt;number&gt;[M/G]</span> and <span class="hliteral">-XX:MaxPermSize=&lt;number&gt;[M/G]</span></h5>
+<ul>
+<li>Sets the initial and maximum permanent generation sizes. If you are loading a large number of classes, you may need to bump these values up. If you see
+<span class="literal">java.lang.OutOfMemoryError: PermGen space</span>, it is an indication that you need to raise at least <span class="literal">MaxPermSize</span>.</li>
+<li>Example: <span class="literal">java -XX:PermSize=64M -XX:MaxPermSize=256M someClass</span></li>
+</ul><br>
+<h5><span class="hliteral">-XX:NewSize=&lt;number&gt;[M/G]</span> and <span class="hliteral">-XX:MaxNewSize=&lt;number&gt;[M/G]</span></h5>
+<ul>
+<li>Sets the initial and maximum sizes for the young generation. Again, <span class="literal">MaxNewSize</span> should be ⅓ the size of <span class="literal">-Xmx</span>. By default,
+<span class="literal">MaxNewSize</span> is extremely large. This is where new objects go.</li>
+<li>Example: <span class="literal">java -XX:NewSize=512M -XX:MaxNewSize=1G someClass</span></li>
+</ul><br>
+<h5><span class="hliteral">-XX:OldSize=&lt;number&gt;[M/G]</span></h5>
+<ul>
+<li>Explicitly sets the old generation size.</li>
+<li>Example: <span class="literal">java -XX:OldSize=1G someClass</span></li>
+</ul><br>
+<h5><span class="hliteral">-XX:NewRatio=&lt;number&gt;</span></h5>
+<ul>
+<li>Sets the ratio of space allocated to the young and old generations. For example, setting this option to a value of 2 would mean that the maximum old generation space would be twice as
+large as the maximum young generation space. So, if <span class="literal">MaxNewSize</span> was 1G, the old generation space (<span class="literal">OldSize</span>) would be 2G.</li>
+<li>Example of the old generation set to three times the size of the young generation: <span class="literal">java -XX:NewRatio=3 someClass</span>
+</ul><br>
+<h5><span class="hliteral">-XX:MinFreeHeapRatio=&lt;number&gt;</span> and <span class="hliteral">-XX:MaxFreeHeapRatio=&lt;number&gt;</span></h5>
+<ul>
+<li>Number is a value from 0 to 100 which represents a percentage. When less than <span class="literal">MinFreeHeapRatio</span> of the heap is available, the heap grows up to the
+<span class="literal">-Xmx</span> value. When <span class="literal">MaxFreeHeapRatio</span> is reached, compaction occurs. In other words, if <span class="literal">MaxFreeHeapRatio</span>
+is 90%, compaction occurs at 10% occupancy. When <span class="literal">-Xms</span> == <span class="literal">-Xmx</span>, <span class="literal">MinFreeHeapRatio</span> has no effect. Many
+recommend setting <span class="literal">MinFreeHeapRatio</span> to 40% and <span class="literal">MaxFreeHeapRatio</span> to 70%.</li>
+<li>Example: <span class="literal">java -XX:MinFreeHeapRatio=40 -XX:MaxFreeHeapRatio=70 someClass</span></li>
+</ul><br>
+<h5><span class="hliteral">-XX:SurvivorRatio=&lt;number&gt;</span></h5>
+<ul>
+<li>This option sets the ratio between the <span class="literal">From/To</span> space (which are always equal in size) and <span class="literal">Eden</span>. So, if
+<span class="literal">SurvivorRatio</span> is equal to 5, <span class="literal">Eden</span> is 5 times the size of the <span class="literal">From/To</span> space. The total parts would be
+5 + 1 (<span class="literal">From</span>) + 1 (<span class="literal">To</span>) = 7.</li>
+<li>Example: <span class="literal">java -XX:SurvivorRatio=10 someClass</span></li>
+</ul><br>
+<h4>Conclusion</h4>
+<p>I hope this journey has been beneficial to you. Happy JVM tweaking!</p><br>
+<div class="mid">
+[ <a href="http://dilley.me/">Home</a> ]
+</div>
+</div>
+<div id="footer">
+<br>
+<a href="https://jigsaw.w3.org/css-validator/validator?uri=http%3A%2F%2Fdilley.me%2F&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en"><img src="css.png" alt="Valid CSS"></a> 
+<a href="https://validator.w3.org/nu/?doc=https%3A%2F%2Fdilley.me%2Fjvm_memory_tuning.html"><img src="html5.png" alt="Valid HTML5"></a><br><br>
+<a href="http://www.freebsd.org/"><img src="freebsd_powered.gif" alt="Powered by FreeBSD"></a>
+<br><br><p>Copyright &copy; 2009-2024 Lloyd Dilley</p><br>
+</div>
+</body>
+</html>
