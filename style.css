@@ -1,0 +1,29 @@
+body { background: #444; color: #FFF; font-family: Tahoma, Helvetica, sans-serif; font-size: 14px; }
+#header { margin: auto; padding: 0; text-align: center; }
+#header a { color: #FFF; text-decoration: none; }
+#main { background: #FFF; border: dotted 2px #000; color: #000; margin: 0 200px 0 200px; padding: 25px 25px 12px 25px; }
+#main a:link { color: #000; font-weight: bold; text-decoration: none; }
+#main a:active { color: #000; font-weight: bold; text-decoration: underline; }
+#main a:visited { color: #000; font-weight: bold; text-decoration: none; }
+#main a:hover { color: #000; font-weight: bold; text-decoration: underline; }
+#gamercard { margin: 0 auto; text-align: center; }
+#footer { font-size: 12px; margin: auto; padding: 0; text-align: center; }
+a img { border: 0; }
+a img:active { border: 0; }
+h2 { font-size: 28px; }
+h3.section { background: #000; border: dotted 2px #FFF; color: #FFF; font-size: 18px; margin: 0; padding: 0; text-align: center; }
+h4 { font-size: 16px; padding: 0; margin: 0; }
+h5 { font-size: 14px; padding: 0; margin: 0; }
+p { margin: 0; padding: 0; }
+pre { background-color: #DDD; border: dotted 2px #000; font-family: "Courier New", Courier, monospace; font-size: 14px; margin: 0; overflow-x: auto; white-space: pre; position: relative; }
+ol { list-style-type: decimal; margin: 0; }
+ul { list-style-type: square; margin: 0; }
+ul.main { list-style-type: square; margin: 0; padding: 0 0 0 20px; }
+table { border-collapse: collapse; }
+table, td, th { border: 1px solid #000; padding: 10px; }
+td { font-size: 14px; font-weight: normal; }
+th { font-size: 14px; font-weight: bold; }
+.created { font-size: 12px; font-weight: bold; }
+.hliteral { background-color: #F3F3F3; color: #80F; font-family: "Courier New", Courier, monospace; font-size: 14px; font-weight: bold; }
+.literal { background-color: #F3F3F3; color: #80F; font-family: "Courier New", Courier, monospace; font-size: 14px; font-weight: normal; }
+.mid { margin: auto; padding: 0; text-align: center; }
