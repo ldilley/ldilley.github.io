@@ -6,7 +6,6 @@ body { background: #444; color: #FFF; font-family: Tahoma, Helvetica, sans-serif
 #main a:active { color: #000; font-weight: bold; text-decoration: underline; }
 #main a:visited { color: #000; font-weight: bold; text-decoration: none; }
 #main a:hover { color: #000; font-weight: bold; text-decoration: underline; }
-#gamercard { margin: 0 auto; text-align: center; }
 #footer { font-size: 12px; margin: auto; padding: 0; text-align: center; }
 a img { border: 0; }
 a img:active { border: 0; }
